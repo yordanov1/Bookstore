@@ -1,0 +1,60 @@
+﻿@model AddBookFormModel
+
+@{
+    ViewData["Title"] = "Add Book";
+}
+
+
+<form method="post">
+  <h2>Add Book</h2>
+
+  <div class="col-md-6">
+    <label asp-for="BookTitle"></label>
+    <input asp-for="BookTitle" class="form-control" placeholder="Some book ....">
+    <span asp-validation-for="BookTitle" class="small text-danger"></span>
+  </div>
+  
+  <div class="col-md-6">
+    <label asp-for="Author"></label>
+    <input asp-for="Author" class="form-control" placeholder="Yordan Yordanov ....">
+    <span asp-validation-for="Author" class="small text-danger"></span>
+  </div>
+
+  <div class="col-md-6">
+    <label asp-for="ImageUrl"></label>
+    <input asp-for="ImageUrl" class="form-control" placeholder="Your URL ....">
+    <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+  </div>
+
+  <div class="col-md-6">
+    <label asp-for="PublishingHouse"></label>
+    <input asp-for="PublishingHouse" class="form-control" placeholder="Some Publisher ....">
+    <span asp-validation-for="PublishingHouse" class="small text-danger"></span>
+  </div>
+
+  <div class="col-md-6">
+    <label asp-for="Rating"></label>
+    <input asp-for="Rating" class="form-control" placeholder="Some book ....">
+    <span asp-validation-for="Rating" class="small text-danger"></span>
+  </div>
+
+  <div class="col-md-6">
+    <label asp-for="Description"></label>
+    <textarea asp-for="Description" rows="4" class="form-control" placeholder="Some book ...."></textarea>
+    <span asp-validation-for="Description" class="small text-danger"></span>
+  </div>
+
+   <div class="col-md-6">
+    <label asp-for="GenreId"></label>
+    <select asp-for="GenreId" class="form-control">
+            @foreach (var genre in Model.Genres)
+            {
+                <option value="@genre.Id">@genre.Name</option>
+            }
+    </select>
+   </div>
+
+  <input class="btn btn-primary" type="submit" value="Save"/>
+</form>
+
+
