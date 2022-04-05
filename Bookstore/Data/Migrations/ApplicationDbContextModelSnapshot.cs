@@ -36,6 +36,9 @@ namespace Bookstore.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 

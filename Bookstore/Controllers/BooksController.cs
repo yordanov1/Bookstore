@@ -19,6 +19,29 @@
             Genres = this.GetBookGenres()
         });
 
+        public IActionResult All()
+        {
+            var books = this.data
+                .Books
+                .OrderByDescending(x => x.Id)
+                .Select(book => new BookListingViewModel
+                {
+                    Id = book.Id,
+                    BookTitle = book.BookTitle,
+                    Author = book.Author,
+                    ImageUrl = book.ImageUrl,
+                    PublishingHouse = book.PublishingHouse,
+                    Rating = book.Rating,
+                    Description = book.Description,
+                    Genre = book.Genre.Name
+                })
+                .ToList();
+
+
+
+            return View(books);
+        }
+
 
         [HttpPost]
         public IActionResult Add(AddBookFormModel book)
@@ -46,16 +69,13 @@
                 ImageUrl = book.ImageUrl,
                 PublishingHouse = book.PublishingHouse,
                 Rating = book.Rating,
-                Description = book.Description,
+                Description= book.Description,
                 GenreId = book.GenreId,
             };
 
+
             this.data.Books.Add(newBook);
             this.data.SaveChanges();
-
-
-
-
 
             return RedirectToAction ("Index", "Home");
         }
@@ -72,5 +92,8 @@
                  Name = x.Name
              })
              .ToList();
+
+
+
     }
 }

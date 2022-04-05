@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bookstore.Data.Migrations
 {
     [DbContext(typeof(BookstoreDbContext))]
-    [Migration("20220331130640_GenreAndBookTables")]
+    [Migration("20220405122759_GenreAndBookTables")]
     partial class GenreAndBookTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,9 @@ namespace Bookstore.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GenreId")
                         .HasColumnType("int");

@@ -32,7 +32,7 @@
 
         [Required]
         [MaxLength(BookDescriptionLengthMAX)]
-        [MinLength(BookDescriptionLengthMIN)]
+        [MinLength(BookDescriptionLengthMIN)]        
         public string Description { get; set; }
 
         [Display(Name = "Genre")]
