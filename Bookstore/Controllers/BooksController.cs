@@ -39,7 +39,10 @@
 
 
 
-            return View(books);
+            return View(new AllBooksQueryModel
+            {
+                Books = books
+            });
         }
 
 
