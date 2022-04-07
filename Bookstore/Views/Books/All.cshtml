@@ -2,13 +2,15 @@
 
 <div class="row">
    @foreach (var book in Model){
-       <div class="card">
-            <img src="@book.ImageUrl" class="card-img-top" alt="@book.BookTitle - @book.Author">
-            <div class="card-body">
-                  <h5 class="card-title">Card title</h5>                  
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-       </div>
+     <div class="col-md-2">
+         <div class="card">
+             <img src="@book.ImageUrl" class="card-img-top" alt="@book.BookTitle - @book.Author">
+             <div class="card-body text-center">
+                   <h5 class="card-title text-center">@book.BookTitle - @book.Author - @book.Genre - @book.PublishingHouse - @book.Rating</h5>                  
+                   <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="btn btn-primary">View More</a>
+             </div>
+         </div>
+     </div>
 }
 </div>
 
