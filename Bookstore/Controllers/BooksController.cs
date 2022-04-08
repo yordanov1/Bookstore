@@ -1,5 +1,6 @@
 ﻿namespace Bookstore.Controllers
 {
+    using System;
     using Bookstore.Data;
     using Bookstore.Data.Models;
     using Bookstore.Models.Books;
@@ -19,10 +20,37 @@
             Genres = this.GetBookGenres()
         });
 
-        public IActionResult All()
+        public IActionResult All(
+            string author,
+            string searchTerm,
+            BookSorting sorting)
         {
-            var books = this.data
-                .Books
+            var booksQuery = this.data.Books.AsQueryable();
+
+
+            if (!string.IsNullOrWhiteSpace(author))
+            {
+                booksQuery = booksQuery.Where(x => x.Author == author);
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                booksQuery = booksQuery.Where(x =>
+                       (x.BookTitle + " " + x.Author).ToLower().Contains(searchTerm.ToLower())
+                     || x.Description.ToLower().Contains(searchTerm.ToLower()));                    
+            }
+
+
+            booksQuery = sorting switch
+            {
+                BookSorting.Rating => booksQuery.OrderByDescending(x => x.Id),
+                BookSorting.Author => booksQuery.OrderByDescending(x => x.Author),
+                //_ => booksQuery.OrderByDescending(x => x.Id)
+            };
+
+
+            var books = booksQuery
                 .OrderByDescending(x => x.Id)
                 .Select(book => new BookListingViewModel
                 {
@@ -33,15 +61,24 @@
                     PublishingHouse = book.PublishingHouse,
                     Rating = book.Rating,
                     Description = book.Description,
-                    Genre = book.Genre.Name
+                    Genre = book.Genre.Name                    
                 })
                 .ToList();
 
-
+            var bookAuthors = this.data
+                .Books
+                .Select(x => x.Author)
+                .Distinct()
+                .ToList();
 
             return View(new AllBooksQueryModel
             {
-                Books = books
+                Author = author,
+                Authors = bookAuthors,
+                Books = books,
+                SearchTerm = searchTerm,
+                Sorting = sorting
+                
             });
         }
 

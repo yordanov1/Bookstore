@@ -5,9 +5,11 @@
 
     public class AllBooksQueryModel
     {
-        public IEnumerable<string> BookTitle { get; set; }
+        public string Author { get; set; }
+        public IEnumerable<string> Authors { get; set; }
+
         [Display(Name = "Search")]
-        public IEnumerable<string> SearchTerm { get; set; }
+        public string SearchTerm { get; set; }
         public BookSorting Sorting { get; set; }
         public IEnumerable<BookListingViewModel> Books { get; set; } 
     }

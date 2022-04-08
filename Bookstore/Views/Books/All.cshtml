@@ -3,14 +3,32 @@
 
 <form method="get">
     <div class="row mb-5">
+        <div class="form-group col-md-4">  
+              <div class="form-group">
+                   <label asp-for="Author"></label>
+                   <select asp-for="Author" class="form-control">
+                           <option value="">All</option>
+                           @foreach (var author in Model.Authors)
+                           {
+                               <option value="@author">@author</option>
+                           }
+                   </select>                   
+              </div>
+        </div>  
         <div class="form-group col-md-4">            
                 <label asp-for="SearchTerm"></label>
                 <input asp-for="SearchTerm" class="form-control" placeholder="Some thing ....">           
-        </div>  
-         <div class="form-group col-md-3">                            
-        </div> 
-         <div class="form-group col-md-3">                            
-        </div>          
+        </div>                 
+         <div class="form-group col-md-3">    
+               <div class="form-group">
+                   <label asp-for="Sorting"></label>
+                   <select asp-for="Sorting" class="form-control">
+                           <option value="0" selected>Rating</option>
+                           <option value="1" selected>Author</option>                          
+                           
+                   </select>                   
+              </div>
+         </div>          
      </div>      
 </form>
 
