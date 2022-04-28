@@ -1,8 +1,11 @@
 ﻿@model AllBooksQueryModel
 
+@{
+    ViewData["Title"] = "All Book";
+}
 
 <form method="get">
-    <div class="row mb-5">
+    <div class="row">
         <div class="form-group col-md-4">  
               <div class="form-group">
                    <label asp-for="Author"></label>
@@ -19,12 +22,12 @@
                 <label asp-for="SearchTerm"></label>
                 <input asp-for="SearchTerm" class="form-control" placeholder="Some thing ....">           
         </div>                 
-         <div class="form-group col-md-3">    
+         <div class="form-group col-md-4">    
                <div class="form-group">
-                   <label asp-for="Sorting"></label>
+                   <label asp-for="Sorting"></label>    
                    <select asp-for="Sorting" class="form-control">
-                           <option value="0" selected>Rating</option>
-                           <option value="1" selected>Author</option>                          
+                           <option value="0" sel    ected>Rating</option>
+                           <option value="1">Author</option>                          
                            
                    </select>                   
               </div>
@@ -32,11 +35,41 @@
      </div>      
 </form>
 
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalBooks / AllBooksQueryModel.BooksPerPage);
+}
+
+<div class="row mb-5">
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Books" 
+           asp-action="All" 
+           asp-route-currentPage="@previousPage"
+           asp-route-author="@Model.Author"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-sorting="@((int)Model.Sorting)"><<</a>
+    </div>
+     <div class="col-md-6">
+        <a 
+           class="btn btn-primary float-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)" 
+           asp-controller="Books" 
+           asp-action="All" 
+           asp-route-currentPage="@(Model.CurrentPage + 1)">>></a>
+    </div>
+</div>
+
+
 
 
 <div class="row">
    @foreach (var book in Model.Books){
-     <div class="col-md-2">
+     <div class="col-md-4">
          <div class="card">
              <img src="@book.ImageUrl" class="card-img-top" alt="@book.BookTitle - @book.Author">
              <div class="card-body text-center">

@@ -20,38 +20,42 @@
             Genres = this.GetBookGenres()
         });
 
-        public IActionResult All(
-            string author,
-            string searchTerm,
-            BookSorting sorting)
+
+        //public IActionResult All([FromQuery] AllBooksQueryModel query) { } - класовете не се байндват  от GET заявка затова слагаме [FromQuery]
+        //public IActionResult All(string author, string searchTerm, BookSorting sorting)
+        public IActionResult All([FromQuery] AllBooksQueryModel query)
         {
             var booksQuery = this.data.Books.AsQueryable();
 
 
-            if (!string.IsNullOrWhiteSpace(author))
+            if (!string.IsNullOrWhiteSpace(query.Author))
             {
-                booksQuery = booksQuery.Where(x => x.Author == author);
+                booksQuery = booksQuery.Where(x => x.Author == query.Author);
             }
 
 
-            if (!string.IsNullOrWhiteSpace(searchTerm))
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
                 booksQuery = booksQuery.Where(x =>
-                       (x.BookTitle + " " + x.Author).ToLower().Contains(searchTerm.ToLower())
-                     || x.Description.ToLower().Contains(searchTerm.ToLower()));                    
+                       (x.BookTitle + " " + x.Author).ToLower().Contains(query.SearchTerm.ToLower())
+                     || x.Description.ToLower().Contains(query.SearchTerm.ToLower()));                    
             }
 
 
-            booksQuery = sorting switch
+            booksQuery = query.Sorting switch
             {
-                BookSorting.Rating => booksQuery.OrderByDescending(x => x.Id),
+                BookSorting.Rating => booksQuery.OrderByDescending(x => x.Rating),
                 BookSorting.Author => booksQuery.OrderByDescending(x => x.Author),
                 //_ => booksQuery.OrderByDescending(x => x.Id)
             };
 
 
-            var books = booksQuery
-                .OrderByDescending(x => x.Id)
+            var totalBooks = booksQuery.Count();
+
+
+            var books = booksQuery     
+                .Skip((query.CurrentPage - 1) * AllBooksQueryModel.BooksPerPage)
+                .Take(AllBooksQueryModel.BooksPerPage)
                 .Select(book => new BookListingViewModel
                 {
                     Id = book.Id,
@@ -71,15 +75,11 @@
                 .Distinct()
                 .ToList();
 
-            return View(new AllBooksQueryModel
-            {
-                Author = author,
-                Authors = bookAuthors,
-                Books = books,
-                SearchTerm = searchTerm,
-                Sorting = sorting
-                
-            });
+            query.TotalBooks = totalBooks;
+            query.Authors = bookAuthors;
+            query.Books = books;
+
+            return View(query);
         }
 
 
