@@ -1,4 +1,4 @@
-namespace Bookstore
+﻿namespace Bookstore
 {
     using Bookstore.Data;
     using Bookstore.Infrastructure;
@@ -23,7 +23,8 @@ namespace Bookstore
                 .AddDbContext<BookstoreDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-
+            // Искам да имам дефолтната функционалност за Юзъри , дефолтния Юзър идентити юзър 
+            // и искам да ги пазиш в базата данни в BookstoreDbContext
             services
                 .AddDefaultIdentity<IdentityUser>(options =>
             {
@@ -57,6 +58,7 @@ namespace Bookstore
                .UseHttpsRedirection()
                .UseStaticFiles()
                .UseRouting()
+               //За Юзърите
                .UseAuthentication()
                .UseAuthorization()
                .UseEndpoints(endpoints =>

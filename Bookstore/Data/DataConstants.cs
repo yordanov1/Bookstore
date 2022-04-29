@@ -14,5 +14,11 @@
         public const int BookPublishingHouseLengthMAX = 100;
         public const int BookPublishingHouseLengthMIN = 1;
 
+        public const int GenreNameLengthMAX = 30;
+
+        public const int AdministratorNameLengthMAX = 30;
+        public const int AdministratorPhoneLengthMAX = 20;
+
+
     }
 }

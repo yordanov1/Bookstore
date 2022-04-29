@@ -52,5 +52,9 @@
 
 
         public string Description { get; set; }
+
+        public int AdministratorId { get; set; }
+
+        public Administrator Administrator { get; set; }
     }
 }
