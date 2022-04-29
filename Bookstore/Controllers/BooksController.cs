@@ -15,10 +15,6 @@
         public BooksController(BookstoreDbContext data)
             => this.data = data;
 
-        public IActionResult Add() => View(new AddBookFormModel
-        {
-            Genres = this.GetBookGenres()
-        });
 
 
         //public IActionResult All([FromQuery] AllBooksQueryModel query) { } - класовете не се байндват  от GET заявка затова слагаме [FromQuery]
@@ -46,7 +42,7 @@
             {
                 BookSorting.Rating => booksQuery.OrderByDescending(x => x.Rating),
                 BookSorting.Author => booksQuery.OrderByDescending(x => x.Author),
-                //_ => booksQuery.OrderByDescending(x => x.Id)
+                _ => booksQuery.OrderByDescending(x => x.Id)
             };
 
 
@@ -83,6 +79,12 @@
         }
 
 
+        public IActionResult Add() => View(new AddBookFormModel
+        {
+            Genres = this.GetBookGenres()
+        });
+
+
         [HttpPost]
         public IActionResult Add(AddBookFormModel book)
         {
@@ -93,14 +95,12 @@
             }
 
 
-
             //ModelState се съобразява с атрибутите които сме написали в ДТО-то
             if (!ModelState.IsValid)
             {
                 book.Genres = this.GetBookGenres();
                 return View(book);
             }
-
 
             var newBook = new Book
             {
@@ -113,13 +113,22 @@
                 GenreId = book.GenreId,
             };
 
-
             this.data.Books.Add(newBook);
             this.data.SaveChanges();
 
             return RedirectToAction(nameof(All));
         }
 
+
+        public IActionResult Delete(int id)
+        {
+            var bookDelete = this.data.Books.FirstOrDefault(x => x.Id == id);
+
+            this.data.Books.Remove(bookDelete);
+            this.data.SaveChanges();
+
+            return RedirectToAction("All");
+        }
 
 
         // HTTP рекуеста който идва от формата в браузъра да се намачне на AddBookFormModel book
@@ -132,8 +141,5 @@
                  Name = x.Name
              })
              .ToList();
-
-
-
     }
 }

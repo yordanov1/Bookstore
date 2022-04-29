@@ -4,14 +4,6 @@
     ViewData["Title"] = "Add Book";
 }
 <!--<a href="/">
-<div class="row">
-    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <h2 class="heading-margin text-center">Add Book</h2>
-
-
-
-    </div>
-</div>
  </a> -->  
 
 
@@ -71,7 +63,7 @@
   </div>
   </a> -->
 
-   <div class="form-group">
+   <div class="col-md-6">
     <label asp-for="GenreId"></label>
     <select asp-for="GenreId" class="form-control">
             @foreach (var genre in Model.Genres)
