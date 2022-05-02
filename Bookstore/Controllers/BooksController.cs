@@ -1,9 +1,10 @@
 ﻿namespace Bookstore.Controllers
 {
-    using System;
     using Bookstore.Data;
     using Bookstore.Data.Models;
+    using Bookstore.Infrastructure;
     using Bookstore.Models.Books;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Linq;
@@ -78,16 +79,39 @@
             return View(query);
         }
 
-
-        public IActionResult Add() => View(new AddBookFormModel
+        [Authorize]
+        public IActionResult Add()
         {
-            Genres = this.GetBookGenres()
-        });
+
+             if (!this.UserIsAdministrator())
+             {                
+                 return RedirectToAction(nameof(AdministratorsController.Create), "Administrators");
+             }
+
+
+             return View(new AddBookFormModel
+             {
+                 Genres = this.GetBookGenres()
+             });
+        } 
 
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(AddBookFormModel book)
         {
+            var administratorId = this.data
+                .Administrators
+                .Where(a => a.UserId == this.User.GetId())
+                .Select(a => a.Id)
+                .FirstOrDefault();
+
+
+            if (administratorId == 0)
+            {
+                return RedirectToAction(nameof(AdministratorsController.Create), "Administrators");
+            }
+
 
             if (!this.data.Genres.Any(x => x.Id == book.GenreId))
             {
@@ -111,6 +135,7 @@
                 Rating = book.Rating,
                 Description= book.Description,
                 GenreId = book.GenreId,
+                AdministratorId = administratorId,
             };
 
             this.data.Books.Add(newBook);
@@ -129,6 +154,13 @@
 
             return RedirectToAction("All");
         }
+
+
+
+        private bool UserIsAdministrator()
+            => this.data
+            .Administrators
+            .Any(a => a.UserId == this.User.GetId());
 
 
         // HTTP рекуеста който идва от формата в браузъра да се намачне на AddBookFormModel book

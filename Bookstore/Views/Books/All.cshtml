@@ -37,6 +37,11 @@
     </div>      
 </form>
 
+@if (!Model.Books.Any())
+{
+    <h2 class="text-center">No books found</h2>
+}
+
 
 @{
     var previousPage = Model.CurrentPage - 1;

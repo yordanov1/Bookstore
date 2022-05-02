@@ -1,0 +1,26 @@
+﻿@model BecomeAdministratorFormModel
+
+@{
+    ViewData["Title"] = "Become Administrator";
+}
+<!--<a href="/">
+ </a> -->  
+
+
+<h2 class="heading-margin text-center">@ViewData["Title"]</h2>
+
+<form method="post">
+  <div class="col-md-6">
+    <label asp-for="Name"></label>
+    <input asp-for="Name" class="form-control" placeholder="Some name ....">
+    <span asp-validation-for="Name" class="small text-danger"></span>
+  </div>
+  
+  <div class="col-md-6">
+    <label asp-for="PhoneNumber"></label>
+    <input asp-for="PhoneNumber" class="form-control" placeholder="0887654....">
+    <span asp-validation-for="PhoneNumber" class="small text-danger"></span>
+  </div>
+
+  <input class="btn btn-primary" type="submit" value="Save"/>
+</form>

@@ -16,8 +16,13 @@
 
         public const int GenreNameLengthMAX = 30;
 
+        public const int AdministratorNameLengthMIN = 2;
         public const int AdministratorNameLengthMAX = 30;
+        public const int AdministratorPhoneLengthMIN = 6;
         public const int AdministratorPhoneLengthMAX = 20;
+
+
+
 
 
     }
