@@ -3,6 +3,7 @@
     using Bookstore.Data;
     using Bookstore.Data.Models;
     using Bookstore.Infrastructure;
+    using Bookstore.Models;
     using Bookstore.Models.Books;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

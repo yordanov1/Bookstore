@@ -2,7 +2,6 @@
 {
     using Bookstore.Data;
     using Bookstore.Models;
-    using Bookstore.Models.Books;
     using Bookstore.Models.Home;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
@@ -10,17 +9,16 @@
 
     public class HomeController : Controller
     {
-
-        // Injektirame data
         private readonly BookstoreDbContext data;
+
         public HomeController(BookstoreDbContext data)
             => this.data = data;
-
 
 
         public IActionResult Index()
         {
             var totalBooks = this.data.Books.Count();
+            var TotalUsers = this.data.Users.Count();
 
 
             var books = this.data

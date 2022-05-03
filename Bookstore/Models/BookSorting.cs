@@ -1,4 +1,4 @@
-﻿namespace Bookstore.Models.Books
+﻿namespace Bookstore.Models
 {
     public enum BookSorting
     {
