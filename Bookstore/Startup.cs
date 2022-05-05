@@ -2,6 +2,8 @@
 {
     using Bookstore.Data;
     using Bookstore.Infrastructure;
+    using Bookstore.Services.Books;
+    using Bookstore.Services.Statistics;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -35,7 +37,12 @@
 
             })
                 .AddEntityFrameworkStores<BookstoreDbContext>();
+
             services.AddControllersWithViews();
+
+            services.AddTransient<IStatisticServices, StatisticServices>();
+            services.AddTransient<IBookService, BookService>();
+
         }
 
      

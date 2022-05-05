@@ -3,6 +3,7 @@
     using Bookstore.Data;
     using Bookstore.Models;
     using Bookstore.Models.Home;
+    using Bookstore.Services.Statistics;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
     using System.Linq;
@@ -10,17 +11,18 @@
     public class HomeController : Controller
     {
         private readonly BookstoreDbContext data;
+        private readonly IStatisticServices statistics;
 
-        public HomeController(BookstoreDbContext data)
-            => this.data = data;
-
+        public HomeController(
+            BookstoreDbContext data, 
+            IStatisticServices statistics)
+        {
+            this.statistics = statistics;
+            this.data = data;
+        }
 
         public IActionResult Index()
         {
-            var totalBooks = this.data.Books.Count();
-            var TotalUsers = this.data.Users.Count();
-
-
             var books = this.data
              .Books
              .OrderByDescending(x => x.Id)
@@ -38,9 +40,12 @@
              .Take(3)
              .ToList();
             
+            var totalStatistics = this.statistics.Total();
+
             return View(new IndexViewModel
             {
-                TotalBooks = totalBooks,
+                TotalBooks = totalStatistics.TotalBooks,
+                TotalUsers = totalStatistics.TotalUsers,
                 Books = books
             });
         }

@@ -3,6 +3,7 @@
     using Bookstore.Data;
     using Bookstore.Models;
     using Bookstore.Models.Api.Books;
+    using Bookstore.Services.Books;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
 
@@ -10,60 +11,25 @@
     [Route("api/books")]
     public class BooksApiController : Controller
     {
-        private readonly BookstoreDbContext data;
+        private readonly IBookService books;
 
-        public BooksApiController(BookstoreDbContext data)
+        public BooksApiController(IBookService books)
         {
-            this.data = data;
+            this.books = books;
         }
 
+
         [HttpGet]
-        public ActionResult<AllBooksApiResponseModel> All([FromQuery] AllBooksApiRequestModel query)
+        public BookQueryServiceModel All([FromQuery] AllBooksApiRequestModel query)
         {
-            var booksQuery = this.data.Books.AsQueryable();
+            return this.books.All(
+                query.Author,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                query.BooksPerPage);
 
-
-            if (!string.IsNullOrWhiteSpace(query.Author))
-            {
-                booksQuery = booksQuery.Where(x => x.Author == query.Author);
-            }
-
-
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                booksQuery = booksQuery.Where(x =>
-                       (x.BookTitle + " " + x.Author).ToLower().Contains(query.SearchTerm.ToLower())
-                     || x.Description.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
-
-
-            booksQuery = query.Sorting switch
-            {
-                BookSorting.Rating => booksQuery.OrderByDescending(x => x.Rating),
-                BookSorting.Author => booksQuery.OrderByDescending(x => x.Author),
-                _ => booksQuery.OrderByDescending(x => x.Id)
-            };
-
-
-            var totalBooks = booksQuery.Count();
-
-
-            var books = booksQuery
-                .Skip((query.CurrentPage - 1) * query.BooksPerPage)
-                .Take(query.BooksPerPage)
-                .Select(book => new BookResponseModel
-                {
-                    Id = book.Id,
-                    BookTitle = book.BookTitle,
-                    Author = book.Author,
-                    ImageUrl = book.ImageUrl,
-                    PublishingHouse = book.PublishingHouse,
-                    Rating = book.Rating,
-                    Description = book.Description,
-                    Genre = book.Genre.Name
-                })
-                .ToList();
-
+            /*
             return new AllBooksApiResponseModel()
             {
                 CurrentPage = query.CurrentPage,
@@ -71,6 +37,7 @@
                 TotalBooks = totalBooks,
                 Books = books
             };
+            */
         }
 
 

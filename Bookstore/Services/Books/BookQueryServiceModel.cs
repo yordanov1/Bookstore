@@ -1,8 +1,8 @@
-﻿namespace Bookstore.Models.Api.Books
+﻿namespace Bookstore.Services.Books
 {
     using System.Collections.Generic;
 
-    public class AllBooksApiResponseModel
+    public class BookQueryServiceModel
     {
         public int CurrentPage { get; set; }
 
@@ -10,6 +10,6 @@
 
         public int TotalBooks { get; set; }
 
-        public IEnumerable<BookResponseModel> Books { get; set; }
+        public IEnumerable<BookServiceModel> Books { get; set; }
     }
 }

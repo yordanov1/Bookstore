@@ -1,5 +1,6 @@
 ﻿namespace Bookstore.Models.Books
 {
+    using Bookstore.Services.Books;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -21,6 +22,6 @@
 
         public int TotalBooks { get; set; }
 
-        public IEnumerable<BookListingViewModel> Books { get; set; } 
+        public IEnumerable<BookServiceModel> Books { get; set; } 
     }
 }

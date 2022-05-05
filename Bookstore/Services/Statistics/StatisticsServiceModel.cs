@@ -1,6 +1,6 @@
-﻿namespace Bookstore.Models.Api.Statistics
+﻿namespace Bookstore.Services.Statistics
 {
-    public class StatisticsResponceModel
+    public class StatisticsServiceModel
     {
         public int TotalBooks { get; set; }
 

@@ -1,38 +1,23 @@
 ﻿namespace Bookstore.Controllers.Api
 {
-    using Bookstore.Data;
-    using Bookstore.Models.Api.Statistics;
+    using Bookstore.Services.Statistics;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
 
     [ApiController]
     [Route("api/statistics")]
     public class StatisticsApiController : ControllerBase
     {
-        private readonly BookstoreDbContext data;
+        private readonly IStatisticServices statistics;
 
-        public StatisticsApiController(BookstoreDbContext data)
+        public StatisticsApiController(IStatisticServices statistics)
         {
-            this.data = data;
+            this.statistics = statistics;
         }
 
         [HttpGet]
-        public StatisticsResponceModel GetStatistics()
+        public StatisticsServiceModel GetStatistics()
         {
-            var totalBooks = this.data.Books.Count();
-            var TotalUsers = this.data.Users.Count();
-
-            return new StatisticsResponceModel()
-            {
-                TotalBooks = totalBooks,
-                TotalUsers = TotalUsers,
-                TotalRents = 0
-            };
+           return this.statistics.Total();
         }
-
-
-
-
     }
-
 }

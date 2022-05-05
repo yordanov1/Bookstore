@@ -1,6 +1,6 @@
-﻿namespace Bookstore.Models.Api.Books
+﻿namespace Bookstore.Services.Books
 {
-    public class BookResponseModel
+    public class BookServiceModel
     {
         public int Id { get; set; }
 
