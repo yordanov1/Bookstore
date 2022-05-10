@@ -1,6 +1,7 @@
 ﻿namespace Bookstore.Services.Books
 {
     using Bookstore.Data;
+    using Bookstore.Data.Models;
     using Bookstore.Models;
     using System.Collections.Generic;
     using System.Linq;
@@ -49,21 +50,10 @@
             var totalBooks = booksQuery.Count();
 
 
-            var books = booksQuery
+            var books = GetBooks(booksQuery
                 .Skip((currentPage - 1) * booksPerPage)
-                .Take(booksPerPage)
-                .Select(book => new BookServiceModel
-                {
-                    Id = book.Id,
-                    BookTitle = book.BookTitle,
-                    Author = book.Author,
-                    ImageUrl = book.ImageUrl,
-                    PublishingHouse = book.PublishingHouse,
-                    Rating = book.Rating,
-                    Description = book.Description,
-                    Genre = book.Genre.Name
-                })
-                .ToList();
+                .Take(booksPerPage));
+                
 
             return new BookQueryServiceModel
             {
@@ -74,6 +64,14 @@
             };
         }
 
+        public IEnumerable<BookServiceModel> ByUser(string userId)
+        => GetBooks(this.data
+            .Books
+            .Where(b => b.Moderator.UserId == userId));
+
+            
+           
+
         public IEnumerable<string> AllBookAuthors()
         {
             return this.data
@@ -83,5 +81,21 @@
                 .OrderBy(a => a)
                 .ToList();
         }
+
+
+
+        private static IEnumerable<BookServiceModel> GetBooks(IQueryable<Book> bookQuery)
+            => bookQuery.Select(book => new BookServiceModel
+            {
+                Id = book.Id,
+                BookTitle = book.BookTitle,
+                Author = book.Author,
+                ImageUrl = book.ImageUrl,
+                PublishingHouse = book.PublishingHouse,
+                Rating = book.Rating,
+                Description = book.Description,
+                Genre = book.Genre.Name
+            })
+            .ToList();
     }
 }

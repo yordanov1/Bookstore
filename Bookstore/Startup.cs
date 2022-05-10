@@ -3,6 +3,7 @@
     using Bookstore.Data;
     using Bookstore.Infrastructure;
     using Bookstore.Services.Books;
+    using Bookstore.Services.Moderators;
     using Bookstore.Services.Statistics;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -41,6 +42,7 @@
             services.AddControllersWithViews();
 
             services.AddTransient<IStatisticServices, StatisticServices>();
+            services.AddTransient<IModeratorService, ModeratorService>();
             services.AddTransient<IBookService, BookService>();
 
         }

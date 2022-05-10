@@ -12,6 +12,9 @@
             int currentPage,
             int booksPerPage);
 
+
+        IEnumerable<BookServiceModel> ByUser(string userId);
+
         IEnumerable<string> AllBookAuthors();
     }
 }

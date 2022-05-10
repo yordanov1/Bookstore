@@ -44,6 +44,13 @@
             return View(query);
         }
 
+        [Authorize]
+        public IActionResult Mine()
+        {
+            var myBooks = this.books.ByUser(this.User.GetId());
+
+            return View(myBooks);
+        }
 
 
         [Authorize]

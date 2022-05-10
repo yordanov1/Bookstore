@@ -1,0 +1,15 @@
+﻿@model IEnumerable<BookServiceModel>
+
+@{
+    ViewBag.Title = "My Book";
+    // ViewData["Title"] = "My Book";
+    ViewBag.AllowBookEdit = true;
+
+}
+
+@if (!Model.Any())
+{
+    <h2 class="text-center">You do not have any books yet!</h2>
+}
+
+<partial name="_BooksPArtial" model="@Model" />

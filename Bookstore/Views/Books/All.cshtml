@@ -1,7 +1,9 @@
 ﻿@model AllBooksQueryModel
 
 @{
-    ViewData["Title"] = "All Book";
+    ViewBag.Title = "All Books";
+    //ViewData["Title"] = "All Books";
+    
 }
 
 <form method="get">
@@ -78,18 +80,4 @@
 
 
 
-<div class="row">
-   @foreach (var book in Model.Books){
-     <div class="col-md-4">
-         <div class="card">
-             <img src="@book.ImageUrl" class="card-img-top" alt="@book.BookTitle - @book.Author">
-             <div class="card-body text-center">
-                   <h5 class="card-title text-center">@book.BookTitle - @book.Author - @book.Genre - @book.PublishingHouse - @book.Rating</h5>                  
-                   <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="btn btn-primary">View More</a>
-                   <a asp-controller="Books" asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger">Delete</a>
-
-             </div>
-         </div>
-     </div>
-}
-</div>
+<partial name="_BooksPArtial" model="@Model.Books" />
