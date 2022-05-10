@@ -16,7 +16,7 @@
 
         public DbSet<Genre> Genres { get; set; }
 
-        public DbSet<Administrator> Administrators { get; set; }
+        public DbSet<Moderator> Moderators { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -30,17 +30,17 @@
 
             builder
                 .Entity<Book>()
-                .HasOne(b => b.Administrator)
+                .HasOne(b => b.Moderator)
                 .WithMany(a => a.Books)
-                .HasForeignKey(b => b.AdministratorId)
+                .HasForeignKey(b => b.ModeratorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
 
             builder
-                .Entity<Administrator>()
+                .Entity<Moderator>()
                 .HasOne<IdentityUser>()
                 .WithOne()
-                .HasForeignKey<Administrator>(a => a.UserId)
+                .HasForeignKey<Moderator>(a => a.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
 

@@ -53,8 +53,8 @@
 
         public string Description { get; set; }
 
-        public int AdministratorId { get; set; }
+        public int ModeratorId { get; set; }
 
-        public Administrator Administrator { get; set; }
+        public Moderator Moderator { get; set; }
     }
 }

@@ -44,13 +44,15 @@
             return View(query);
         }
 
+
+
         [Authorize]
         public IActionResult Add()
         {
 
-             if (!this.UserIsAdministrator())
+             if (!this.UserIsModerator())
              {                
-                 return RedirectToAction(nameof(AdministratorsController.Create), "Administrators");
+                 return RedirectToAction(nameof(ModeratorsController.Create), "Moderators");
              }
 
 
@@ -65,16 +67,16 @@
         [Authorize]
         public IActionResult Add(AddBookFormModel book)
         {
-            var administratorId = this.data
-                .Administrators
+            var moderatorId = this.data
+                .Moderators
                 .Where(a => a.UserId == this.User.GetId())
                 .Select(a => a.Id)
                 .FirstOrDefault();
 
 
-            if (administratorId == 0)
+            if (moderatorId == 0)
             {
-                return RedirectToAction(nameof(AdministratorsController.Create), "Administrators");
+                return RedirectToAction(nameof(ModeratorsController.Create), "Moderators");
             }
 
 
@@ -100,7 +102,7 @@
                 Rating = book.Rating,
                 Description= book.Description,
                 GenreId = book.GenreId,
-                AdministratorId = administratorId,
+                ModeratorId = moderatorId,
             };
 
             this.data.Books.Add(newBook);
@@ -122,9 +124,9 @@
 
 
 
-        private bool UserIsAdministrator()
+        private bool UserIsModerator()
             => this.data
-            .Administrators
+            .Moderators
             .Any(a => a.UserId == this.User.GetId());
 
 

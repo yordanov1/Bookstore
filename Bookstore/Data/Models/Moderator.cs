@@ -1,22 +1,21 @@
 ﻿namespace Bookstore.Data.Models
 {
-    using Microsoft.AspNetCore.Identity;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using static DataConstants;
 
-    public class Administrator
+    public class Moderator
     {
         [Required]
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(AdministratorNameLengthMAX)]
+        [MaxLength(ModeratorNameLengthMAX)]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(AdministratorPhoneLengthMAX)]
+        [MaxLength(ModeratorPhoneLengthMAX)]
         public string PhoneNumber { get; set; }
 
         public string UserId { get; set; }

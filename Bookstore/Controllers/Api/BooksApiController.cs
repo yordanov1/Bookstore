@@ -18,10 +18,13 @@
             this.books = books;
         }
 
+        
+
 
         [HttpGet]
         public BookQueryServiceModel All([FromQuery] AllBooksApiRequestModel query)
         {
+
             return this.books.All(
                 query.Author,
                 query.SearchTerm,
@@ -40,7 +43,7 @@
             */
         }
 
-
+        
         //ModelState се случва автоматично
         //Автоматично изкарва и грешки if(product == null) => NotFound() 
 

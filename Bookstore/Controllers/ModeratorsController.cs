@@ -3,16 +3,16 @@
     using Bookstore.Data;
     using Bookstore.Data.Models;
     using Bookstore.Infrastructure;
-    using Bookstore.Models.Administrators;
+    using Bookstore.Models.Moderators;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
 
-    public class AdministratorsController : Controller
+    public class ModeratorsController : Controller
     {
         private readonly BookstoreDbContext data;
 
-        public AdministratorsController(BookstoreDbContext data)
+        public ModeratorsController(BookstoreDbContext data)
         {
             this.data = data;
         }
@@ -25,33 +25,33 @@
 
         [HttpPost]
         [Authorize]
-        public IActionResult Create(BecomeAdministratorFormModel administrator)
+        public IActionResult Create(BecomeModeratorFormModel moderator)
         {
             var userId = this.User.GetId();
 
-            var userIdAlreadyAdministrator = this.data
-                .Administrators
+            var userIdAlreadyModerator = this.data
+                .Moderators
                 .Any(a => a.UserId == userId);
 
-            if (userIdAlreadyAdministrator)
+            if (userIdAlreadyModerator)
             {
                 return BadRequest();
             }
 
             if (!ModelState.IsValid)
             {
-                return View(administrator);
+                return View(moderator);
             }
 
 
-            var administratorData = new Administrator()
+            var moderatorData = new Moderator()
             {
-                Name = administrator.Name,
-                PhoneNumber = administrator.PhoneNumber,
+                Name = moderator.Name,
+                PhoneNumber = moderator.PhoneNumber,
                 UserId = userId
             };
 
-            this.data.Add(administratorData);
+            this.data.Add(moderatorData);
             this.data.SaveChanges();
 
             return RedirectToAction("All", "Books");

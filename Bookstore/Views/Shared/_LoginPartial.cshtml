@@ -5,11 +5,14 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="" asp-controller="Administrators" asp-action="Create">Become Administrator</a>
+     <li class="nav-item">
+        <a  class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Mine">My Books</a>
     </li>
     <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>
+        <a  class="nav-link text-dark" asp-area="" asp-controller="Moderators" asp-action="Create">Become Moderator</a>
+    </li>
+    <li class="nav-item">
+        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Account</a>
     </li>
     
     <li class="nav-item">
