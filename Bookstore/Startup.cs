@@ -29,7 +29,7 @@
             // Искам да имам дефолтната функционалност за Юзъри , дефолтния Юзър идентити юзър 
             // и искам да ги пазиш в базата данни в BookstoreDbContext
             services
-                .AddDefaultIdentity<IdentityUser>(options =>
+                .AddDefaultIdentity<User>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
@@ -37,6 +37,7 @@
                 options.Password.RequireUppercase = false;
 
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<BookstoreDbContext>();
 
             services.AddControllersWithViews();

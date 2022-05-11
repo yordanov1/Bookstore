@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    public class BookstoreDbContext : IdentityDbContext
+    public class BookstoreDbContext : IdentityDbContext<User>
     {
         public BookstoreDbContext(DbContextOptions<BookstoreDbContext> options)
             : base(options)
@@ -38,7 +38,7 @@
 
             builder
                 .Entity<Moderator>()
-                .HasOne<IdentityUser>()
+                .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Moderator>(a => a.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

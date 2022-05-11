@@ -8,7 +8,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     
-    var userId = User.GetId();
+    var userId = User.Id();
     var userIsModerator = Moderators.IsModerator(userId);
     
 

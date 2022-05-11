@@ -16,6 +16,9 @@
 
         public string Description { get; set; }
 
-        public string Genre { get; set; }
+        public string GenreName { get; set; }
     }
 }
+
+
+

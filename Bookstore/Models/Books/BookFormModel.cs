@@ -1,9 +1,10 @@
 ﻿namespace Bookstore.Models.Books
 {
+    using Bookstore.Services.Books;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using static Data.DataConstants;
-    public class AddBookFormModel
+    public class BookFormModel
     {
         public int Id { get; set; }
 
@@ -38,7 +39,7 @@
         [Display(Name = "Genre")]
         public int GenreId { get; set; }
 
-        public IEnumerable<BookGenreViewModel> Genres { get; set; }
+        public IEnumerable<BookGenreServiceModel> Genres { get; set; }
 
         //public Genre Genre { get; set; }
 

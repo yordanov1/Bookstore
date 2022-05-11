@@ -17,6 +17,11 @@
                 .Moderators
                 .Any(m => m.UserId == userId);
 
-        
+        public int IdByUser(string userId)
+        =>this.data
+                .Moderators
+                .Where(a => a.UserId == userId)
+                .Select(a => a.Id)
+                .FirstOrDefault();
     }
 }

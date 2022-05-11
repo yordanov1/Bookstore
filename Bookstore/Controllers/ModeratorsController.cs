@@ -27,7 +27,7 @@
         [Authorize]
         public IActionResult Create(BecomeModeratorFormModel moderator)
         {
-            var userId = this.User.GetId();
+            var userId = this.User.Id();
 
             var userIdAlreadyModerator = this.data
                 .Moderators

@@ -64,13 +64,82 @@
             };
         }
 
+
+        public BookDetailsServiceModel Details(int id)
+          => this.data.
+            Books.
+            Where(b => b.Id == id).
+            Select(b => new BookDetailsServiceModel
+            {
+                Id = b.Id,
+                BookTitle = b.BookTitle,
+                Author = b.Author,
+                ImageUrl = b.ImageUrl,
+                PublishingHouse = b.PublishingHouse,
+                Rating = b.Rating,
+                Description = b.Description,
+                GenreName = b.Genre.Name,
+                ModeratorId = b.ModeratorId,
+                ModeratorName = b.Moderator.Name,
+                UserId = b.Moderator.UserId
+            })
+            .FirstOrDefault();
+
+        public int Create(string bookTitle, string author, string imageUrl, string publishingHouse, int? rating, string description, int genreId, int moderatorId)
+        {
+            var newBook = new Book
+            {
+                BookTitle = bookTitle,
+                Author = author,
+                ImageUrl = imageUrl,
+                PublishingHouse = publishingHouse,
+                Rating = rating,
+                Description = description,
+                GenreId = genreId,
+                ModeratorId = moderatorId
+            };
+
+            this.data.Books.Add(newBook);
+            this.data.SaveChanges();
+
+            return newBook.Id;
+        }
+
+        public bool Edit(int id, string bookTitle, string author, string imageUrl, string publishingHouse, int? rating, string description, int genreId)
+        {
+            var bookData = this.data.Books.Find(id);
+
+            if (bookData == null)
+            {
+                return false;
+            }
+
+            bookData.BookTitle = bookTitle;
+            bookData.Author = author;   
+            bookData.ImageUrl = imageUrl;
+            bookData.PublishingHouse = publishingHouse;
+            bookData.Rating = rating;
+            bookData.Description = description;
+            bookData.GenreId = genreId;
+
+            
+            this.data.SaveChanges();
+
+            return true;
+
+        }
+
         public IEnumerable<BookServiceModel> ByUser(string userId)
         => GetBooks(this.data
             .Books
             .Where(b => b.Moderator.UserId == userId));
 
-            
-           
+
+        public bool IsByModerator(int bookId, int moderatorId)
+      => this.data.
+            Books.
+            Any(b => b.Id == bookId && b.ModeratorId == moderatorId);
+
 
         public IEnumerable<string> AllBookAuthors()
         {
@@ -81,6 +150,22 @@
                 .OrderBy(a => a)
                 .ToList();
         }
+
+        public IEnumerable<BookGenreServiceModel> AllBookGenres()
+            => this.data
+           .Genres
+           .Select(x => new BookGenreServiceModel
+           {
+               Id = x.Id,
+               Name = x.Name
+           })
+           .ToList();
+
+
+        public bool GenreExist(int genreId)
+        => this.data.
+            Genres.
+            Any(x => x.Id == genreId);
 
 
 
@@ -94,8 +179,10 @@
                 PublishingHouse = book.PublishingHouse,
                 Rating = book.Rating,
                 Description = book.Description,
-                Genre = book.Genre.Name
+                GenreName = book.Genre.Name
             })
             .ToList();
+
+       
     }
 }
