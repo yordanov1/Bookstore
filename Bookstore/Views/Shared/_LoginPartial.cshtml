@@ -1,7 +1,10 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using Bookstore.Data.Models
+@using Microsoft.AspNetCore.Identity
 @using Bookstore.Services.Moderators
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @inject IModeratorService Moderators
 
 <ul class="navbar-nav">
@@ -10,15 +13,16 @@
     
     var userId = User.Id();
     var userIsModerator = Moderators.IsModerator(userId);
-    
+    var userIsAdmin = User.IsAdmin();
 
-    @if (userIsModerator)
+
+    @if (userIsModerator && !userIsAdmin)
    {
     <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Mine">My Books</a>
             </li>
         }
-        else
+        else if(!userIsAdmin)
         {
          <li class="nav-item">
            <a  class="nav-link text-dark" asp-area="" asp-controller="Moderators" asp-action="Create">Become Moderator</a>

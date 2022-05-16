@@ -1,6 +1,7 @@
 ﻿namespace Bookstore
 {
     using Bookstore.Data;
+    using Bookstore.Data.Models;
     using Bookstore.Infrastructure;
     using Bookstore.Services.Books;
     using Bookstore.Services.Moderators;

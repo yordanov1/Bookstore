@@ -3,28 +3,40 @@
     using Bookstore.Data;
     using Bookstore.Data.Models;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using System;
     using System.Linq;
+    using System.Threading.Tasks;
+    using static WebConstants;
 
     public static class ApplicationBuilderExtensions
     {
         public static IApplicationBuilder PrepareDatabase(
            this IApplicationBuilder app)
         {
-            using var scopedServices = app.ApplicationServices.CreateScope();
-            var data = scopedServices.ServiceProvider.GetService<BookstoreDbContext>();
+            using var servicesScope = app.ApplicationServices.CreateScope();
+            var services = servicesScope.ServiceProvider;
 
-            data.Database.Migrate();
+            MigrateDatabase(services);
 
-            SeedCategories(data);
+            SeedCategories(services);
+            SeedAdministrator(services);
 
             return app;
         }
 
-        private static void SeedCategories(BookstoreDbContext data)
-        {            
+        private static void MigrateDatabase(IServiceProvider services)
+        {
+            var data = services.GetRequiredService<BookstoreDbContext>();
 
+            data.Database.Migrate();
+        }
+
+        private static void SeedCategories(IServiceProvider services)
+        {
+            var data = services.GetRequiredService<BookstoreDbContext>();
 
             if (data.Genres.Any())
             {
@@ -56,5 +68,44 @@
 
             data.SaveChanges();
         }
+
+        private static void SeedAdministrator(IServiceProvider services)
+        {
+            var userManager = services.GetRequiredService<UserManager<User>>();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+
+            //Ако искаме да руннем метод който е асинхронен но искаме да не работи асинхронно 
+            //Рънни всичкото това нещо и го изчакай
+            Task
+                .Run(async ()=>
+                {
+                    if (await roleManager.RoleExistsAsync(AdministratorRoleName))
+                    {
+                        return;
+                    }
+
+                    var role = new IdentityRole { Name = AdministratorRoleName };
+
+                    await roleManager.CreateAsync(role);
+
+                    const string adminEmail = "admin@crs.com";
+                    const string adminPassword = "admin12";   
+
+                    var user = new User
+                    {
+                        Email = adminEmail,
+                        UserName = adminEmail,
+                        FullName = "Admin"
+                    };
+
+                    await userManager.CreateAsync(user, adminPassword);
+
+                    await userManager.AddToRoleAsync(user, role.Name);
+                })
+                .GetAwaiter()
+                .GetResult();
+        }
+
     }
 }

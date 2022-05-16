@@ -22,6 +22,11 @@
         public const int ModeratorPhoneLengthMAX = 20;
 
         public const int UserNameLengthMAX = 80;
+        public const int UserNameLengthMin = 3;
+
+        public const int PasswordLengthMAX = 100;
+        public const int PasswordLengthMin = 6;
+
 
 
 

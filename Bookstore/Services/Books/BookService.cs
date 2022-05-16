@@ -43,7 +43,7 @@
             {
                 BookSorting.Rating => booksQuery.OrderByDescending(x => x.Rating),
                 BookSorting.Author => booksQuery.OrderByDescending(x => x.Author),
-                _ => booksQuery.OrderByDescending(x => x.Id)
+                _ => booksQuery.OrderByDescending(x => x.Id) // ако не се парснат 
             };
 
 

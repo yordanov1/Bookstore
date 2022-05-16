@@ -18,7 +18,10 @@
         [MaxLength(ModeratorPhoneLengthMAX)]
         public string PhoneNumber { get; set; }
 
+
         public string UserId { get; set; }
+
+        
 
         public IEnumerable<Book> Books { get; set; } = new List<Book>();
     }

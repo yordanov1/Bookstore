@@ -129,7 +129,7 @@
             var userId = this.User.Id();
 
 
-            if (!this.moderators.IsModerator(this.User.Id()))
+            if (!this.moderators.IsModerator(userId) && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(ModeratorsController.Create), "Moderators");
             }
@@ -138,7 +138,7 @@
 
             var book = this.books.Details(id);
 
-            if (book.UserId != userId)
+            if (book.UserId != userId && !User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -163,7 +163,7 @@
             var moderatorId = this.moderators.IdByUser(this.User.Id());
 
 
-            if (moderatorId == 0)
+            if (moderatorId == 0 && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(ModeratorsController.Create), "Moderators");
             }
@@ -183,7 +183,7 @@
                 return View(book);
             }
 
-            if (!this.books.IsByModerator(id, moderatorId))
+            if (!this.books.IsByModerator(id, moderatorId) && !User.IsAdmin())
             {
                 return BadRequest();
             }
