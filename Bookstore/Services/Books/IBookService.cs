@@ -1,7 +1,6 @@
 ﻿namespace Bookstore.Services.Books
 {
     using Bookstore.Models;
-    using Bookstore.Services.Books;
     using System.Collections.Generic;
 
     public interface IBookService

@@ -85,7 +85,15 @@
             })
             .FirstOrDefault();
 
-        public int Create(string bookTitle, string author, string imageUrl, string publishingHouse, int? rating, string description, int genreId, int moderatorId)
+        public int Create(
+            string bookTitle, 
+            string author, 
+            string imageUrl, 
+            string publishingHouse, 
+            int? rating, 
+            string description, 
+            int genreId, 
+            int moderatorId)
         {
             var newBook = new Book
             {

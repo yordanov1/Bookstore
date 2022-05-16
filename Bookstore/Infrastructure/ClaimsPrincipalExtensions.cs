@@ -2,7 +2,7 @@
 {
     using System.Security.Claims;
 
-    using static WebConstants;
+    using static Areas.Admin.AdminConstants;
 
     public static class ClaimsPrincipalExtensions
     {
@@ -10,7 +10,7 @@
         => user.FindFirst(ClaimTypes.NameIdentifier).Value;
 
         public static bool IsAdmin(this ClaimsPrincipal user)
-            => user.IsInRole(WebConstants.AdministratorRoleName);
+            => user.IsInRole(AdministratorRoleName);
 
     }
 }

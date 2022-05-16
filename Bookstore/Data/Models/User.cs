@@ -9,8 +9,5 @@
     {
         [MaxLength(UserNameLengthMAX)]
         public string FullName { get; set; }
-
-
-
     }
 }

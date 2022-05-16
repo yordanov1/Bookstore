@@ -17,9 +17,7 @@
         {
             this.books = books;
         }
-
-        
-
+       
 
         [HttpGet]
         public BookQueryServiceModel All([FromQuery] AllBooksApiRequestModel query)

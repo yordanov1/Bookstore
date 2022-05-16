@@ -1,13 +1,11 @@
 ﻿namespace Bookstore.Controllers
 {
-    using Bookstore.Data;
     using Bookstore.Infrastructure;
     using Bookstore.Models.Books;
     using Bookstore.Services.Books;
     using Bookstore.Services.Moderators;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
 
     public class BooksController : Controller
     {        
@@ -200,10 +198,7 @@
 
 
             return RedirectToAction(nameof(All));
-        }
-
-       
-       
+        }            
     }
 }
 
