@@ -1,6 +1,6 @@
 ﻿namespace Bookstore.Models.Books
 {
-    using Bookstore.Services.Books;
+    using Bookstore.Services.Books.Models;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using static Data.DataConstants;

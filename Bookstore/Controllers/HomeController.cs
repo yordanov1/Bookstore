@@ -1,8 +1,9 @@
 ﻿namespace Bookstore.Controllers
 {
-    using Bookstore.Data;
+    using AutoMapper;
     using Bookstore.Models;
     using Bookstore.Models.Home;
+    using Bookstore.Services.Books;
     using Bookstore.Services.Statistics;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
@@ -10,19 +11,27 @@
 
     public class HomeController : Controller
     {
-        private readonly BookstoreDbContext data;
+        private readonly IBookService books;
         private readonly IStatisticServices statistics;
+        
 
         public HomeController(
-            BookstoreDbContext data, 
-            IStatisticServices statistics)
+            IStatisticServices statistics,
+            IBookService books)
         {
-            this.statistics = statistics;
-            this.data = data;
+            this.statistics = statistics;            
+            this.books = books;
         }
 
         public IActionResult Index()
         {
+
+            var latestBooks = this.books
+                .Latest()
+                .ToList();
+
+
+            /*
             var books = this.data
              .Books
              .OrderByDescending(x => x.Id)
@@ -35,18 +44,19 @@
                  PublishingHouse = book.PublishingHouse,
                  Rating = book.Rating,
                  Description = book.Description,
-                 //Genre = book.Genre.Name
              })
              .Take(3)
              .ToList();
-            
+            */
+
+
             var totalStatistics = this.statistics.Total();
 
             return View(new IndexViewModel
             {
                 TotalBooks = totalStatistics.TotalBooks,
                 TotalUsers = totalStatistics.TotalUsers,
-                Books = books
+                Books = latestBooks
             });
         }
 

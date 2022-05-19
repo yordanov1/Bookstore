@@ -41,6 +41,8 @@
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<BookstoreDbContext>();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllersWithViews();
 
             services.AddTransient<IStatisticServices, StatisticServices>();

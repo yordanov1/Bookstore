@@ -1,5 +1,6 @@
 ﻿namespace Bookstore.Controllers
 {
+    using AutoMapper;
     using Bookstore.Infrastructure;
     using Bookstore.Models.Books;
     using Bookstore.Services.Books;
@@ -11,14 +12,17 @@
     {        
         private readonly IBookService books;
         private readonly IModeratorService moderators;
+        private readonly IMapper mapper;
 
 
-        public BooksController( 
-            IBookService books, 
-            IModeratorService moderators)
-        {  
+        public BooksController(
+            IBookService books,
+            IModeratorService moderators, 
+            IMapper mapper)
+        {
             this.books = books;
             this.moderators = moderators;
+            this.mapper = mapper;
         }
 
 
@@ -141,6 +145,12 @@
                 return Unauthorized();
             }
 
+
+            var bookForm = this.mapper.Map<BookFormModel>(book);
+            bookForm.Genres = this.books.AllBookGenres();
+
+            return View(bookForm);
+            /*
             return View(new BookFormModel
             {
                 BookTitle = book.BookTitle,
@@ -152,6 +162,7 @@
                 GenreId = book.GenreId,
                 Genres = this.books.AllBookGenres()
             });
+            */
         }
 
         [HttpPost]

@@ -1,4 +1,4 @@
-﻿namespace Bookstore.Services.Books
+﻿namespace Bookstore.Services.Books.Models
 {
     public class BookDetailsServiceModel : BookServiceModel
     {

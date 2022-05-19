@@ -1,6 +1,6 @@
-﻿namespace Bookstore.Services.Books
+﻿namespace Bookstore.Services.Books.Models
 {
-    public class BookServiceModel
+    public class LatestBooksServiceModel
     {
         public int Id { get; set; }
 
@@ -16,9 +16,6 @@
 
         public string Description { get; set; }
 
-        public string GenreName { get; set; }
+        //public string Genre { get; set; }
     }
 }
-
-
-

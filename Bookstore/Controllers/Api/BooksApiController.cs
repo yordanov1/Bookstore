@@ -1,11 +1,9 @@
 ﻿namespace Bookstore.Controllers.Api
 {
-    using Bookstore.Data;
-    using Bookstore.Models;
     using Bookstore.Models.Api.Books;
     using Bookstore.Services.Books;
+    using Bookstore.Services.Books.Models;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
 
     [ApiController]//защитава и валидира на база на атрибутите
     [Route("api/books")]

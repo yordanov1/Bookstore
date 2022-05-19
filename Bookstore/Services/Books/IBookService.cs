@@ -1,6 +1,7 @@
 ﻿namespace Bookstore.Services.Books
 {
     using Bookstore.Models;
+    using Bookstore.Services.Books.Models;
     using System.Collections.Generic;
 
     public interface IBookService
@@ -11,6 +12,9 @@
             BookSorting sorting,
             int currentPage,
             int booksPerPage);
+
+        IEnumerable<LatestBooksServiceModel> Latest();
+
 
 
         BookDetailsServiceModel Details(int bookId);
