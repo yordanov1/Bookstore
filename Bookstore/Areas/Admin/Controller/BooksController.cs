@@ -4,7 +4,7 @@
 
     public class BooksController : AdminController
     {
-        public IActionResult Index()
+        public IActionResult All()
         {
             return View();
         }

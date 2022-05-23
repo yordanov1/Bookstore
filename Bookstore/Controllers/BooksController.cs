@@ -54,6 +54,21 @@
             return View(myBooks);
         }
 
+        public IActionResult Details(int id, string information)
+        {
+            var book = this.books.Details(id);
+
+            if (information != book.GetInformation())
+            {
+                return BadRequest();
+            }
+
+            return View(book);
+
+        }
+
+
+
 
         [Authorize]
         public IActionResult Add()
@@ -99,7 +114,7 @@
                 return View(book);
             }
 
-            this.books.Create(
+            var bookId = books.Create(
                 book.BookTitle,
                 book.Author,
                 book.ImageUrl,
@@ -109,7 +124,7 @@
                 book.GenreId,
                 moderatorId);
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(Details), new { id = bookId, information = book.GetInformation() });
         }
 
         /*
@@ -208,8 +223,9 @@
                 book.GenreId);
 
 
-            return RedirectToAction(nameof(All));
-        }            
+            return RedirectToAction(nameof(Details), new { id = id, information = book.GetInformation() });
+
+        }
     }
 }
 

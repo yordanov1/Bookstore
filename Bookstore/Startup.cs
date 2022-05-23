@@ -76,6 +76,12 @@
                .UseAuthorization()
                .UseEndpoints(endpoints =>
                {
+
+                   endpoints.MapControllerRoute(
+                       name: "Book Details",
+                       pattern: "/Books/Details/{id}/{information}",
+                       defaults: new { controller = "Books", action = "Details" });
+
                    //За Ареите.Ако съществуват го направи по този начин.Иначе по долния.{area:exists}
                    endpoints.MapControllerRoute(
                        name: "Areas",

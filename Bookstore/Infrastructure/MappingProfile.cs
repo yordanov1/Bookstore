@@ -14,7 +14,8 @@
             this.CreateMap<BookDetailsServiceModel, BookFormModel>();
 
             this.CreateMap<Book, BookDetailsServiceModel>()
-                .ForMember(b => b.UserId, cfg => cfg.MapFrom(b => b.Moderator.UserId));
+                .ForMember(b => b.UserId, cfg => cfg.MapFrom(b => b.Moderator.UserId))
+                .ForMember(b => b.GenreName, cfg => cfg.MapFrom(b => b.Genre.Name));
         } 
     }
 }

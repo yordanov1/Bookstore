@@ -1,6 +1,5 @@
 ﻿namespace Bookstore.Controllers
 {
-    using AutoMapper;
     using Bookstore.Models;
     using Bookstore.Models.Home;
     using Bookstore.Services.Books;

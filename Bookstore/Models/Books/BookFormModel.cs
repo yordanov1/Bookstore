@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using static Data.DataConstants;
-    public class BookFormModel
+    public class BookFormModel : IBookModel
     {
         public int Id { get; set; }
 

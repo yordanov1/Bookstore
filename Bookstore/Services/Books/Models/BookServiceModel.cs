@@ -1,6 +1,6 @@
 ﻿namespace Bookstore.Services.Books.Models
 {
-    public class BookServiceModel
+    public class BookServiceModel : IBookModel
     {
         public int Id { get; set; }
 

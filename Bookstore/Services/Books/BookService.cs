@@ -29,7 +29,8 @@
             int currentPage,
             int booksPerPage)
         {
-            var booksQuery = this.data.Books.AsQueryable();
+            var booksQuery = this.data.Books
+                .Where(x => x.IsPublic);
 
 
             if (!string.IsNullOrWhiteSpace(author))
@@ -75,6 +76,7 @@
         public IEnumerable<LatestBooksServiceModel> Latest()
           => this.data
            .Books
+           .Where(x => x.IsPublic)
            .OrderByDescending(x => x.Id)
            .ProjectTo<LatestBooksServiceModel>(this.mapper) // .ConfigurationProvider
            .Take(3)
@@ -129,7 +131,8 @@
                 Rating = rating,
                 Description = description,
                 GenreId = genreId,
-                ModeratorId = moderatorId
+                ModeratorId = moderatorId,
+                IsPublic = false
             };
 
             this.data.Books.Add(newBook);
@@ -162,6 +165,7 @@
             bookData.Rating = rating;
             bookData.Description = description;
             bookData.GenreId = genreId;
+            bookData.IsPublic = false;
 
             
             this.data.SaveChanges();
