@@ -7,11 +7,12 @@
     public interface IBookService
     {
         BookQueryServiceModel All(
-            string author,
-            string searchTerm,
-            BookSorting sorting,
-            int currentPage,
-            int booksPerPage);
+            string author = null,
+            string searchTerm = null,
+            BookSorting sorting = BookSorting.Author,
+            int currentPage = 1,
+            int booksPerPage = int.MaxValue,
+            bool publicOnly = true);
 
         IEnumerable<LatestBooksServiceModel> Latest();
 
@@ -37,11 +38,14 @@
               string publishingHouse,
               int? rating,
               string description,
-              int genreId);
+              int genreId,
+              bool isPublic);
 
         IEnumerable<BookServiceModel> ByUser(string userId);
 
         bool IsByModerator(int bookId, int moderatorId);
+
+        void ChangeVisibility(int carId);
 
         IEnumerable<string> AllBookAuthors();
 

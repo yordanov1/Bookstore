@@ -1,7 +1,7 @@
 ﻿namespace Bookstore.Controllers
 {
     using AutoMapper;
-    using Bookstore.Infrastructure;
+    using Bookstore.Infrastructure.Extensions;
     using Bookstore.Models.Books;
     using Bookstore.Services.Books;
     using Bookstore.Services.Moderators;
@@ -212,7 +212,7 @@
                 return BadRequest();
             }
 
-            this.books.Edit(
+            var edited = this.books.Edit(
                 id,
                 book.BookTitle,
                 book.Author,
@@ -220,8 +220,13 @@
                 book.PublishingHouse,
                 book.Rating,
                 book.Description,
-                book.GenreId);
+                book.GenreId,
+                this.User.IsAdmin());
 
+            if (!edited)
+            {
+                return BadRequest();
+            }
 
             return RedirectToAction(nameof(Details), new { id = id, information = book.GetInformation() });
 

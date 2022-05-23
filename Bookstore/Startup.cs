@@ -2,7 +2,7 @@
 {
     using Bookstore.Data;
     using Bookstore.Data.Models;
-    using Bookstore.Infrastructure;
+    using Bookstore.Infrastructure.Extensions;
     using Bookstore.Services.Books;
     using Bookstore.Services.Moderators;
     using Bookstore.Services.Statistics;

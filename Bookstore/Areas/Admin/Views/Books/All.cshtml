@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BookServiceModel>
+
+@{
+    ViewBag.Title = "Becom Moderator";
+}
+
+
+<h1>All Books </h1>
+
+
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">BookTitle</th>
+      <th scope="col">Author</th>
+      <th scope="col">PublishingHouse</th>
+      <th scope="col">Rating</th>
+      <th scope="col">GenreName</th>
+      <th scope="col">Approved</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var book in Model)
+   {
+     <tr>
+        <td scope="col">@book.Id</td>
+        <td scope="col">@book.BookTitle</td>
+        <td scope="col">@book.Author</td>
+        <td scope="col">@book.PublishingHouse</td>
+        <td scope="col">@book.Rating</td>
+        <td scope="col">@book.GenreName</td>
+        <td scope="col">@(book.IsPublic ? "Yes" : "No")</td>
+        <td scope="col">
+            <a asp-area="" asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" asp-route-information="@book.GetInformation()" class="btn btn-primary float-right ml-3">View</a>                         
+            <a asp-area="" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id" class="btn btn-warning float-right ml-3">Edit</a>
+            <a asp-area="Admin" asp-controller="Books" asp-action="ChangeVisibility" asp-route-id="@book.Id" class="btn btn-info float-right ml-3">@(book.IsPublic ? "Hide" : "Show")</a>
+            <a asp-area="" asp-controller="Books" asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger float-right ml-3">Delete</a>                                
+        </td>
+     </tr> 
+   }
+  </tbody>
+</table>
+

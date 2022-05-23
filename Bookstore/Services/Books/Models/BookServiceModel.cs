@@ -17,6 +17,8 @@
         public string Description { get; set; }
 
         public string GenreName { get; set; }
+
+        public bool IsPublic { get; set; }
     }
 }
 

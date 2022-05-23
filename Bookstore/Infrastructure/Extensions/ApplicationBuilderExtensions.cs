@@ -1,4 +1,4 @@
-﻿namespace Bookstore.Infrastructure
+﻿namespace Bookstore.Infrastructure.Extensions
 {
     using Bookstore.Data;
     using Bookstore.Data.Models;

@@ -2,7 +2,7 @@
 {
     using Bookstore.Data;
     using Bookstore.Data.Models;
-    using Bookstore.Infrastructure;
+    using Bookstore.Infrastructure.Extensions;
     using Bookstore.Models.Moderators;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

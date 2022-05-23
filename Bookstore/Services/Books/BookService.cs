@@ -23,14 +23,15 @@
         }
 
         public BookQueryServiceModel All(
-            string author, 
-            string searchTerm,
-            BookSorting sorting,
-            int currentPage,
-            int booksPerPage)
+            string author = null,
+            string searchTerm = null,
+            BookSorting sorting = BookSorting.Author,
+            int currentPage = 1,
+            int booksPerPage = int.MaxValue,
+            bool publicOnly = true)
         {
             var booksQuery = this.data.Books
-                .Where(x => x.IsPublic);
+                .Where(x => publicOnly ? x.IsPublic : true);
 
 
             if (!string.IsNullOrWhiteSpace(author))
@@ -149,7 +150,8 @@
             string publishingHouse, 
             int? rating, 
             string description, 
-            int genreId)
+            int genreId,
+            bool isPublic)
         {
             var bookData = this.data.Books.Find(id);
 
@@ -165,7 +167,7 @@
             bookData.Rating = rating;
             bookData.Description = description;
             bookData.GenreId = genreId;
-            bookData.IsPublic = false;
+            bookData.IsPublic = isPublic;
 
             
             this.data.SaveChanges();
@@ -179,10 +181,22 @@
             .Books
             .Where(b => b.Moderator.UserId == userId));
 
+
         public bool IsByModerator(int bookId, int moderatorId)
       => this.data.
             Books.
             Any(b => b.Id == bookId && b.ModeratorId == moderatorId);
+
+
+
+        public void ChangeVisibility(int carId)
+        {
+            var book = this.data.Books.Find(carId);
+
+            book.IsPublic = !book.IsPublic;
+
+            this.data.SaveChanges();
+        }
 
         public IEnumerable<string> AllBookAuthors()
         {
@@ -197,32 +211,20 @@
         public IEnumerable<BookGenreServiceModel> AllBookGenres()
             => this.data
            .Genres
-           .Select(x => new BookGenreServiceModel
-           {
-               Id = x.Id,
-               Name = x.Name
-           })
+           .ProjectTo<BookGenreServiceModel>(this.mapper)
            .ToList();
+
 
         public bool GenreExist(int genreId)
         => this.data.
             Genres.
             Any(x => x.Id == genreId);
 
-        private static IEnumerable<BookServiceModel> GetBooks(IQueryable<Book> bookQuery)
-            => bookQuery.Select(book => new BookServiceModel
-            {
-                Id = book.Id,
-                BookTitle = book.BookTitle,
-                Author = book.Author,
-                ImageUrl = book.ImageUrl,
-                PublishingHouse = book.PublishingHouse,
-                Rating = book.Rating,
-                Description = book.Description,
-                GenreName = book.Genre.Name
-            })
+        private IEnumerable<BookServiceModel> GetBooks(IQueryable<Book> bookQuery)
+            => bookQuery.
+            ProjectTo<BookServiceModel>(this.mapper)
             .ToList();
 
-      
+
     }
 }

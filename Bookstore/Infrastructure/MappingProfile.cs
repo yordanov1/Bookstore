@@ -10,8 +10,13 @@
     {
         public MappingProfile()
         {
+            this.CreateMap<Book, BookGenreServiceModel>();
+
             this.CreateMap<Book, LatestBooksServiceModel>();
             this.CreateMap<BookDetailsServiceModel, BookFormModel>();
+
+            this.CreateMap<Book, BookServiceModel>()
+                .ForMember(x => x.GenreName, cfg => cfg.MapFrom(x => x.Genre.Name));
 
             this.CreateMap<Book, BookDetailsServiceModel>()
                 .ForMember(b => b.UserId, cfg => cfg.MapFrom(b => b.Moderator.UserId))
