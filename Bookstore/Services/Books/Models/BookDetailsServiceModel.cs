@@ -13,5 +13,7 @@
         public int GenreId { get; set; }
 
         public string UserId { get; set; }
+
+        
     }
 }

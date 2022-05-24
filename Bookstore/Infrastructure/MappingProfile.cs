@@ -10,6 +10,8 @@
     {
         public MappingProfile()
         {
+            this.CreateMap<Genre, BookGenreServiceModel>();
+
             this.CreateMap<Book, BookGenreServiceModel>();
 
             this.CreateMap<Book, LatestBooksServiceModel>();

@@ -6,7 +6,16 @@
          <div class="card">
              <img src="@book.ImageUrl" class="card-img-top" alt="@book.BookTitle - @book.Author">
              <div class="card-body text-center">
-                   <h5 class="card-title text-center">@book.BookTitle - @book.Author - @book.GenreName - @book.PublishingHouse - @book.Rating</h5>                  
+                   <h5 class="card-title text-left">--------------------------------------</h5> 
+                   <h5 class="card-title text-left">TITLE:   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- @book.BookTitle</h5>   
+                   <h5 class="card-title text-left">AUTHOR:  &nbsp;&nbsp;- @book.Author</h5>  
+                   <h5 class="card-title text-left">GENRE:   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- @book.GenreName</h5>     
+                   <h5 class="card-title text-left">RATING:  &nbsp;&nbsp;&nbsp;&nbsp;- @book.Rating</h5>    
+                   <h5 class="card-title text-left">--------------------------------------</h5> 
+                   
+                   
+                   
+                   
                    <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" asp-route-information="@book.GetInformation()" class="btn btn-primary">View</a>              
                   @if (ViewBag.AllowBookEdit == true || User.IsAdmin())
                  {

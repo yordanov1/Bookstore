@@ -4,9 +4,11 @@
     ViewBag.Title = "Becom Moderator";
 }
 
+<div class="mb-5"></div>
 
-<h1>All Books </h1>
+<h1 class="text-center">All Books</h1>
 
+<div class="mb-4"></div>
 
 <table class="table table-striped">
   <thead class="thead-dark">
@@ -18,6 +20,7 @@
       <th scope="col">Rating</th>
       <th scope="col">GenreName</th>
       <th scope="col">Approved</th>
+      <th scope="col"></th>
 
     </tr>
   </thead>
@@ -32,11 +35,11 @@
         <td scope="col">@book.Rating</td>
         <td scope="col">@book.GenreName</td>
         <td scope="col">@(book.IsPublic ? "Yes" : "No")</td>
-        <td scope="col">
-            <a asp-area="" asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" asp-route-information="@book.GetInformation()" class="btn btn-primary float-right ml-3">View</a>                         
+        <td scope="col">                                
+            <a asp-area="" asp-controller="Books" asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger float-right ml-3">Delete</a>   
             <a asp-area="" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id" class="btn btn-warning float-right ml-3">Edit</a>
             <a asp-area="Admin" asp-controller="Books" asp-action="ChangeVisibility" asp-route-id="@book.Id" class="btn btn-info float-right ml-3">@(book.IsPublic ? "Hide" : "Show")</a>
-            <a asp-area="" asp-controller="Books" asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger float-right ml-3">Delete</a>                                
+            <a asp-area="" asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" asp-route-information="@book.GetInformation()" class="btn btn-primary float-right ml-3">View</a>               
         </td>
      </tr> 
    }
