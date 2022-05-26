@@ -22,6 +22,7 @@
             this.mapper = mapper.ConfigurationProvider;
         }
 
+
         public BookQueryServiceModel All(
             string author = null,
             string searchTerm = null,
@@ -83,6 +84,7 @@
            .Take(3)
            .ToList();
 
+
         public BookDetailsServiceModel Details(int id)
           => this.data.
             Books.
@@ -113,6 +115,23 @@
         */
 
 
+        public BookInformationServiceModel GetBookInfo(int id)
+             => this.data.
+                Books.
+                Where(b => b.Id == id).
+                Select(x => new BookInformationServiceModel
+                {
+                    BookTitle = x.BookTitle,
+                    Author = x.Author,
+                    ImageUrl = x.ImageUrl,
+                    PublishingHouse = x.PublishingHouse,
+                    Rating = x.Rating,
+                    Genre = x.Genre,
+                    Description = x.Description,
+                })
+                .FirstOrDefault();
+        
+
         public int Create(
             string bookTitle, 
             string author, 
@@ -141,6 +160,7 @@
 
             return newBook.Id;
         }
+
 
         public bool Edit(
             int id, 
@@ -173,20 +193,19 @@
             this.data.SaveChanges();
 
             return true;
-
         }
 
+
         public IEnumerable<BookServiceModel> ByUser(string userId)
-        => GetBooks(this.data
-            .Books
-            .Where(b => b.Moderator.UserId == userId));
+          => GetBooks(this.data
+              .Books
+              .Where(b => b.Moderator.UserId == userId));
 
 
         public bool IsByModerator(int bookId, int moderatorId)
-      => this.data.
-            Books.
-            Any(b => b.Id == bookId && b.ModeratorId == moderatorId);
-
+          => this.data.
+                Books.
+                Any(b => b.Id == bookId && b.ModeratorId == moderatorId);
 
 
         public void ChangeVisibility(int carId)
@@ -198,6 +217,7 @@
             this.data.SaveChanges();
         }
 
+
         public IEnumerable<string> AllBookAuthors()
         {
             return this.data
@@ -208,23 +228,31 @@
                 .ToList();
         }
 
+
         public IEnumerable<BookGenreServiceModel> AllBookGenres()
-            => this.data
-           .Genres
-           .ProjectTo<BookGenreServiceModel>(this.mapper)
-           .ToList();
+          => this.data
+             .Genres
+             .ProjectTo<BookGenreServiceModel>(this.mapper)
+             .ToList();
 
 
         public bool GenreExist(int genreId)
-        => this.data.
-            Genres.
-            Any(x => x.Id == genreId);
+          => this.data.
+              Genres.
+              Any(x => x.Id == genreId);
+
 
         private IEnumerable<BookServiceModel> GetBooks(IQueryable<Book> bookQuery)
-            => bookQuery.
-            ProjectTo<BookServiceModel>(this.mapper)
-            .ToList();
+          => bookQuery.
+             ProjectTo<BookServiceModel>(this.mapper)
+             .ToList();
 
+        public void DeleteBook(int id)
+        {
+            var bookDelete = this.data.Books.FirstOrDefault(x => x.Id == id);
 
+            this.data.Books.Remove(bookDelete);
+            this.data.SaveChanges();
+        }
     }
 }

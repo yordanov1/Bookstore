@@ -16,7 +16,7 @@
                    
                    
                    
-                   <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" asp-route-information="@book.GetInformation()" class="btn btn-primary">View</a>              
+                   <a asp-controller="Books" asp-action="Information" asp-route-id="@book.Id" asp-route-information="@book.GetInformation()" class="btn btn-primary" asp-route-information="all" >View</a>              
                   @if (ViewBag.AllowBookEdit == true || User.IsAdmin())
                  {
                    <a asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id" class="btn btn-warning">Edit</a>

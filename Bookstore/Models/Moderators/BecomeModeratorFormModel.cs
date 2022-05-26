@@ -1,6 +1,7 @@
 ﻿namespace Bookstore.Models.Moderators
 {
     using System.ComponentModel.DataAnnotations;
+
     using static Data.DataConstants;
 
     public class BecomeModeratorFormModel

@@ -40,31 +40,5 @@
         public int GenreId { get; set; }
 
         public IEnumerable<BookGenreServiceModel> Genres { get; set; }
-
-        //public Genre Genre { get; set; }
-
-        //public string Isbn { get; set; }
-
-
-        //public DateTime DatePublished { get; set; }
-
-
-        //public string Language { get; set; }
-
-
-        //public int Pages { get; set; }
-
-
-        //public int Reviews { get; set; } //broj ocenki
-
-        //// Paperback, Hardback
-
-        //public string Cover { get; set; }
-
-        //public string Comments { get; set; }
-
-        //public decimal? Price { get; set; }
-
-
     }
 }

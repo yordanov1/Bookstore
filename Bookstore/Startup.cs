@@ -27,8 +27,8 @@
                 .AddDbContext<BookstoreDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-            // Искам да имам дефолтната функционалност за Юзъри , дефолтния Юзър идентити юзър 
-            // и искам да ги пазиш в базата данни в BookstoreDbContext
+            // I want to have the default functionality for Users , default User identity User 
+            // and I want you to keep them in the database in BookstoreDbContext
             services
                 .AddDefaultIdentity<User>(options =>
             {
@@ -48,7 +48,6 @@
             services.AddTransient<IStatisticServices, StatisticServices>();
             services.AddTransient<IModeratorService, ModeratorService>();
             services.AddTransient<IBookService, BookService>();
-
         }
 
      
@@ -71,18 +70,17 @@
                .UseHttpsRedirection()
                .UseStaticFiles()
                .UseRouting()
-               //За Юзърите
                .UseAuthentication()
                .UseAuthorization()
                .UseEndpoints(endpoints =>
                {
 
                    endpoints.MapControllerRoute(
-                       name: "Book Details",
-                       pattern: "/Books/Details/{id}/{information}",
-                       defaults: new { controller = "Books", action = "Details" });
+                       name: "Book Information",
+                       pattern: "/Books/Information/{id}/{information}",
+                       defaults: new { controller = "Books", action = "Information" });
 
-                   //За Ареите.Ако съществуват го направи по този начин.Иначе по долния.{area:exists}
+                   //For Areas.If they exist do it this way.Otherwise in the way below.{area:exists}
                    endpoints.MapControllerRoute(
                        name: "Areas",
                        pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}");

@@ -17,11 +17,13 @@
             this.data = data;
         }
 
+
         [Authorize]
         public IActionResult Create()
         {
             return View();
         }
+
 
         [HttpPost]
         [Authorize]
@@ -56,6 +58,5 @@
 
             return RedirectToAction("All", "Books");
         }
-
     }
 }

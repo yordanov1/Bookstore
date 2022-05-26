@@ -6,6 +6,6 @@
 
         public int TotalUsers { get; set; }
 
-        public int TotalRents { get; set; }
+        public int TotalModerators { get; set; }
     }
 }

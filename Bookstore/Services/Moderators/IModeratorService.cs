@@ -5,6 +5,5 @@
         public bool IsModerator(string userId);
 
         public int IdByUser(string userId);
-
     }
 }

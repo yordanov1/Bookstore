@@ -16,11 +16,13 @@
         {
             var totalBooks = this.data.Books.Count(x => x.IsPublic);
             var totalUsers = this.data.Users.Count();
+            var totalModerators = this.data.Moderators.Count();
 
             return new StatisticsServiceModel
             {
                 TotalBooks = totalBooks,
-                TotalUsers = totalUsers,                
+                TotalUsers = totalUsers,
+                TotalModerators = totalModerators
             };
         }
     }

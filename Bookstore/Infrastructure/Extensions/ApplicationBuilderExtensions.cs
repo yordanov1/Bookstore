@@ -75,9 +75,8 @@
             var userManager = services.GetRequiredService<UserManager<User>>();
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-
-            //Ако искаме да руннем метод който е асинхронен но искаме да не работи асинхронно 
-            //Рънни всичкото това нещо и го изчакай
+            //If we want to run a method that is asynchronous but we want to work synchronously
+            //Run all and wait
             Task
                 .Run(async ()=>
                 {
@@ -107,6 +106,5 @@
                 .GetAwaiter()
                 .GetResult();
         }
-
     }
 }

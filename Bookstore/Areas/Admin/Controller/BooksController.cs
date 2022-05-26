@@ -27,6 +27,5 @@
 
             return RedirectToAction(nameof(All));
         }
-
     }
 }

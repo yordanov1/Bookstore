@@ -3,7 +3,6 @@
     using AutoMapper;
     using Bookstore.Data.Models;
     using Bookstore.Models.Books;
-    using Bookstore.Models.Home;
     using Bookstore.Services.Books.Models;
 
     public class MappingProfile : Profile

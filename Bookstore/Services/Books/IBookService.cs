@@ -16,9 +16,9 @@
 
         IEnumerable<LatestBooksServiceModel> Latest();
 
-
-
         BookDetailsServiceModel Details(int bookId);
+
+        BookInformationServiceModel GetBookInfo(int id);
 
         int Create(
                 string bookTitle,
@@ -49,11 +49,11 @@
 
         IEnumerable<string> AllBookAuthors();
 
-
         IEnumerable<BookGenreServiceModel> AllBookGenres();
 
         bool GenreExist(int genreId);
 
+        void DeleteBook(int id);
     }
 }
     

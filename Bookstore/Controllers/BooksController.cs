@@ -9,11 +9,10 @@
     using Microsoft.AspNetCore.Mvc;
 
     public class BooksController : Controller
-    {        
+    {
         private readonly IBookService books;
         private readonly IModeratorService moderators;
         private readonly IMapper mapper;
-
 
         public BooksController(
             IBookService books,
@@ -26,8 +25,8 @@
         }
 
 
-        //public IActionResult All([FromQuery] AllBooksQueryModel query) { } - класовете не се байндват  от GET заявка затова слагаме [FromQuery]
-        //public IActionResult All(string author, string searchTerm, BookSorting sorting)
+        //-public IActionResult All([FromQuery] AllBooksQueryModel query) { } 
+        //-Classes are not bound by GET requests so we put [FromQuery]
         public IActionResult All([FromQuery] AllBooksQueryModel query)
         {
             var queryResult = this.books.All(
@@ -46,6 +45,7 @@
             return View(query);
         }
 
+
         [Authorize]
         public IActionResult Mine()
         {
@@ -54,25 +54,18 @@
             return View(myBooks);
         }
 
-        public IActionResult Details(int id, string information)
-        {
-            var book = this.books.Details(id);
 
-            if (information != book.GetInformation())
+        public IActionResult Information(int id, string information)
+        {            
+            var bookInfo = this.books.GetBookInfo(id);
+
+            if (information != bookInfo.GetInformation())
             {
                 return BadRequest();
             }
 
-            
-
-
-
-
-            return View(book);
-
+            return View(bookInfo);
         }
-
-
 
 
         [Authorize]
@@ -111,7 +104,7 @@
             }
 
 
-            //ModelState се съобразява с атрибутите които сме написали в ДТО-то
+            //ModelState complies with the attributes we have written in DTO
             if (!ModelState.IsValid)
             {
                 book.Genres = this.books.AllBookGenres();
@@ -129,34 +122,36 @@
                 book.GenreId,
                 moderatorId);
 
-            return RedirectToAction(nameof(Details), new { id = bookId, information = book.GetInformation() });
+            return RedirectToAction(nameof(Information), new { id = bookId, information = book.GetInformation()});
         }
 
-        /*
+
+        [Authorize]
         public IActionResult Delete(int id)
         {
-            var bookDelete = this.data.Books.FirstOrDefault(x => x.Id == id);
-      
+            var userId = this.User.Id();
 
-            this.data.Books.Remove(bookDelete);
-            this.data.SaveChanges();
+
+            if (!this.moderators.IsModerator(userId) && !User.IsAdmin())
+            {
+                return BadRequest();
+            }
+
+            this.books.DeleteBook(id);
 
             return RedirectToAction("All");
         }
-        */
+        
 
         [Authorize]
         public IActionResult Edit(int id)
          {
             var userId = this.User.Id();
 
-
             if (!this.moderators.IsModerator(userId) && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(ModeratorsController.Create), "Moderators");
             }
-
-
 
             var book = this.books.Details(id);
 
@@ -170,6 +165,7 @@
             bookForm.Genres = this.books.AllBookGenres();
 
             return View(bookForm);
+
             /*
             return View(new BookFormModel
             {
@@ -185,6 +181,7 @@
             */
         }
 
+
         [HttpPost]
         [Authorize]
         public IActionResult Edit(int id, BookFormModel book)
@@ -197,14 +194,11 @@
                 return RedirectToAction(nameof(ModeratorsController.Create), "Moderators");
             }
 
-
             if (!this.books.GenreExist(book.GenreId))
             {
                 this.ModelState.AddModelError(nameof(book.GenreId), "Genre does not exist!");
             }
-
-
-            //ModelState се съобразява с атрибутите които сме написали в ДТО-то
+            
             if (!ModelState.IsValid)
             {
                 book.Genres = this.books.AllBookGenres();
@@ -233,8 +227,7 @@
                 return BadRequest();
             }
 
-            return RedirectToAction(nameof(Details), new { id = id, information = book.GetInformation() });
-
+            return RedirectToAction(nameof(Information), new { id = id, information = book.GetInformation() });
         }
     }
 }
